@@ -1,11 +1,29 @@
 package class_property
 
-class DartProperty : ClassProperty(), ClassPropertySGP {
-    companion object Accessors {
+class DartProperty(
+    name: String = "",
+    type: String = "",
+    accessor: Accessor = Accessor("", PropertyAccessorSemantics.PUBLIC),
+    defaultValue: String
+) : ClassProperty(name, type, accessor, defaultValue), ClassPropertySGP {
+    companion object {
         val PRIVATE = Accessor("_", PropertyAccessorSemantics.PRIVATE)
         val PUBLIC = Accessor("", PropertyAccessorSemantics.PUBLIC)
         val PROTECTED = Accessor("@protected", PropertyAccessorSemantics.PROTECTED)
+
+
+        fun fromPropertyGetter(prop: ClassPropertyGetter): DartProperty {
+            val dp = DartProperty(
+                prop.fetchName(),
+                prop.fetchPropType(),
+                Accessor("", PropertyAccessorSemantics.PUBLIC),
+                prop.fetchDefaultVal()
+            )
+            dp.setPropAccessorFromString(prop.fetchAccessorName())
+            return dp
+        }
     }
+
 
     override fun setPropAccessorFromString(accStr: String) {
         when (accStr) {
@@ -49,10 +67,10 @@ class DartProperty : ClassProperty(), ClassPropertySGP {
         if (accessor == PROTECTED && !isForConstructor)
             propertyString += accessor.accessorName + "\n\t"
 
-        if (accessor == PRIVATE)
-            propertyString += "$type ${accessor.accessorName}$name"
+        propertyString += if (accessor == PRIVATE)
+            "$type ${accessor.accessorName}$name"
         else
-            propertyString += "$type $name"
+            "$type $name"
 
         if (defaultValue.isNotEmpty())
             propertyString += " =$defaultValue"

@@ -77,7 +77,6 @@ class JavaParser : ClassParser() {
 
     override fun parseRawProperty(propertyRaw: String): ClassPropertySGP {
         val javaPropUnparsed = propertyRaw.trim().replace(";", "")
-        val javaProp = JavaProperty()
 
         val parts = javaPropUnparsed.split(" ").toMutableList()
 
@@ -87,6 +86,7 @@ class JavaParser : ClassParser() {
         )
             parts.add(0, JavaProperty.PUBLIC.accessorName)
 
+        val javaProp = JavaProperty()
         javaProp.setPropName(parts[2])
         javaProp.setPropType(parts[1])
         javaProp.setPropAccessorFromString(parts[0])

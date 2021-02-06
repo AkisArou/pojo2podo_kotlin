@@ -1,10 +1,11 @@
 package class_property
 
-abstract class ClassProperty {
-    protected lateinit var name: String
-    protected lateinit var type: String
-    protected lateinit var accessor: Accessor
-    protected lateinit var defaultValue: String
+abstract class ClassProperty(
+    protected var name: String,
+    protected var type: String,
+    protected var accessor: Accessor,
+    protected var defaultValue: String
+) {
 }
 
 enum class PropertyAccessorSemantics {

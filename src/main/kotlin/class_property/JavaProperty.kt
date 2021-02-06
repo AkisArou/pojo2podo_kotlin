@@ -1,7 +1,12 @@
 package class_property
 
 
-class JavaProperty : ClassProperty(), ClassPropertySGP {
+class JavaProperty(
+    name: String = "",
+    type: String = "",
+    accessor: Accessor = Accessor("", PropertyAccessorSemantics.PUBLIC),
+    defaultValue: String = ""
+) : ClassProperty(name, type, accessor, defaultValue), ClassPropertySGP {
     companion object Accessors {
         val PRIVATE = Accessor("private", PropertyAccessorSemantics.PRIVATE)
         val PUBLIC = Accessor("public", PropertyAccessorSemantics.PUBLIC)
